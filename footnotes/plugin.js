@@ -16,6 +16,7 @@
         footnote_ids: [],
         requires: 'widget',
         icons: 'footnotes',
+        lang: 'en,de,fr',
 
 
         // The plugin initialization logic goes inside this method.
@@ -59,7 +60,7 @@
                 }
                 // Don't reorder the markers if editing a cite:
                 var footnote_section = evt.editor.getSelection().getStartElement().getAscendant('section');
-                if (footnote_section && footnote_section.$.className.indexOf('footnotes') != -1) {
+                if (footnote_section && footnote_section.$.className.indexOf('footnotes') !== -1) {
                     return;
                 }
                 // SetTimeout seems to be necessary (it's used in the core but can't be 100% sure why)
@@ -94,7 +95,7 @@
 
                 // Check the elements that need to be converted to widgets.
                 upcast: function(element) {
-                    return element.name == 'section' && element.hasClass('footnotes');
+                    return element.name === 'section' && element.hasClass('footnotes');
                 },
 
                 editables: def
@@ -108,7 +109,7 @@
 
                 // Check the elements that need to be converted to widgets.
                 upcast: function(element) {
-                    return element.name == 'sup' && typeof(element.attributes['data-footnote-id']) != 'undefined';
+                    return element.name === 'sup' && typeof(element.attributes['data-footnote-id']) !== 'undefined';
                 },
             });
 
@@ -123,7 +124,7 @@
             editor.ui.addButton('Footnotes', {
 
                 // The text part of the button (if available) and tooptip.
-                label: 'Insert Footnotes',
+                label: editor.lang.footnotes.buttons.add,
 
                 // The command to execute on click.
                 command: 'footnotes',
@@ -167,12 +168,11 @@
                 order   = data ? data.order.indexOf(footnote_id) + 1 : 1,
                 prefix  = editor.config.footnotesPrefix ? '-' + editor.config.footnotesPrefix : '';
 
-            if (data && data.occurrences[footnote_id] == 1) {
+            if (data && data.occurrences[footnote_id] === 1) {
                 links = '<a href="#footnote-marker' + prefix + '-' + order + '-1">^</a> ';
             } else if (data && data.occurrences[footnote_id] > 1) {
                 var i = 0
-                  , l = data.occurrences[footnote_id]
-                  , n = l;
+                  , l = data.occurrences[footnote_id];
                 for (i; i < l; i++) {
                     links += '<a href="#footnote-marker' + prefix + '-' + order + '-' + (i + 1) + '">' + letters.charAt(i) + '</a>';
                     if (i < l-1) {
@@ -190,7 +190,7 @@
             var $contents  = $(editor.editable().$);
             var $footnotes = $contents.find('.footnotes');
 
-            if ($footnotes.length == 0) {
+            if ($footnotes.length === 0) {
                 var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : 'Footnotes';
                 var header_els = ['<h2>', '</h2>'];//editor.config.editor.config.footnotesHeaderEls
                 if (editor.config.footnotesHeaderEls) {
@@ -210,7 +210,7 @@
 
         generateFootnoteId: function() {
             var id = Math.random().toString(36).substr(2, 5);
-            while ($.inArray(id, this.footnote_ids) != -1) {
+            while ($.inArray(id, this.footnote_ids) !== -1) {
                 id = String(this.generateFootnoteId());
             }
             this.footnote_ids.push(id);
@@ -227,7 +227,7 @@
             };
 
             // Check that there's a footnotes section. If it's been deleted the markers are useless:
-            if ($contents.find('.footnotes').length == 0) {
+            if ($contents.find('.footnotes').length === 0) {
                 $contents.find('sup[data-footnote-id]').remove();
                 editor.fire('unlockSnapshot');
                 return;
@@ -236,7 +236,7 @@
             // Find all the markers in the document:
             var $markers = $contents.find('sup[data-footnote-id]');
             // If there aren't any, remove the Footnotes container:
-            if ($markers.length == 0) {
+            if ($markers.length === 0) {
                 $contents.find('.footnotes').parent().remove();
                 editor.fire('unlockSnapshot');
                 return;
@@ -249,7 +249,7 @@
                   , n = data.order.indexOf(footnote_id);
 
                 // If this is the markers first occurrence:
-                if (n == -1) {
+                if (n === -1) {
                     // Store the id:
                     data.order.push(footnote_id);
                     n = data.order.length;
@@ -294,13 +294,12 @@
 
             // Next we need to reinstate the 'editable' properties of the footnotes.
             // (we have to do this individually due to Widgets 'fireOnce' for editable selectors)
-            var el = $contents.find('.footnotes')
-              , n
+            var n
               , footnote_widget;
             // So first we need to find the right Widget instance:
             // (I hope there's a better way of doing this but I can't find one)
             for (i in editor.widgets.instances) {
-                if (editor.widgets.instances[i].name == 'footnotes') {
+                if (editor.widgets.instances[i].name === 'footnotes') {
                     footnote_widget = editor.widgets.instances[i];
                     break;
                 }
