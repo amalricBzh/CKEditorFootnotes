@@ -2,7 +2,7 @@
  * The footnotes dialog definition.
  *
  * Version 1.0.9
- * https://github.com/andykirk/CKEditorFootnotes
+ * https://github.com/amalribzh/CKEditorFootnotes
  *
  */
 
@@ -16,8 +16,8 @@
             editor_name: false,
             // Basic properties of the dialog window: title, minimum size.
             title:  editor.lang.footnotes.dialog.title,
-            minWidth: 400,
-            minHeight: 200,
+            minWidth: 500,
+            minHeight: 250,
             footnotes_el: false,
 
             // Dialog window contents definition.
@@ -35,7 +35,7 @@
                             id: 'new_footnote',
                             'class': 'footnote_text',
                             label: editor.lang.footnotes.dialog.fields.text,
-                            inputStyle: 'height: 100px',
+                            inputStyle: 'height: 120px',
                         },
                         {
                             // Text input field for the footnotes title (explanation).
@@ -98,7 +98,7 @@
 
                 // Allow page to scroll with dialog to allow for many/long footnotes
                 // (https://github.com/andykirk/CKEditorFootnotes/issues/12)
-                jQuery('.cke_dialog').css({'position': 'absolute', 'top': '2%'});
+                jQuery('.cke_dialog').css({'position': 'absolute', 'top': '25%'});
 
                 var current_editor_id = dialog.getParentEditor().id;
 
@@ -119,7 +119,7 @@
                         { name: 'editing',     groups: [ 'undo', 'find', 'selection', 'spellchecker' ] },
                         { name: 'clipboard',   groups: [ 'clipboard' ] },
                         { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                    ]
+                    ];
                     config.allowedContent = 'br em strong; a[!href]';
                     config.enterMode = CKEDITOR.ENTER_BR;
                     config.autoParagraph = false;

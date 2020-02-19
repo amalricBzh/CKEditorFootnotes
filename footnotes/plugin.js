@@ -2,7 +2,7 @@
  * Basic sample plugin inserting footnotes elements into CKEditor editing area.
  *
  * Version 1.0.9
- * https://github.com/andykirk/CKEditorFootnotes
+ * https://github.com/amalribzh/CKEditorFootnotes
  *
  */
 // Register the plugin within the editor.
